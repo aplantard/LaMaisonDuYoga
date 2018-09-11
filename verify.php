@@ -40,11 +40,11 @@
 											include('dbconnect.php');
 											$newget = array_map('htmlspecialchars', $_GET);
 											if(isset($newget['email']) && !empty($newget['email']) AND isset($newget['hash']) && !empty($newget['hash'])){
-												$sql = "SELECT email, hash, verified FROM user WHERE email=\'".$newget['email']."' AND hash='".$newget['hash']."' AND verified='0'";
-												$sql2 = $connexion -> query($sql);
-												$sql3 = $sql2 -> fetch(PDO::FETCH_NUM);
-												if($sql3[0] > 0){
-													$sql = "UPDATE user SET verified='1' WHERE email=\'".$newget['email']."' AND hash='".$newget['hash']."' AND verified='0'";
+												$sql = "SELECT email, hash, verified FROM user WHERE email=\"".$newget['email']."\" AND hash=\"".$newget['hash']."\" AND verified='0'";
+												$sql2 = $connexion->query($sql);
+												$sql3 = $sql2->fetch(PDO::FETCH_NUM);
+												if($sql3[0] != null && $sql3[2] <= 0){
+													$sql = "UPDATE user SET verified='1' WHERE email=\"".$newget['email']."\" AND hash=\"".$newget['hash']."\" AND verified='0'";
 													$sth = $connexion->prepare($sql);
 													$sth->execute();
 													echo '<header>

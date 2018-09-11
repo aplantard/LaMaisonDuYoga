@@ -1,3 +1,8 @@
+<?php
+	session_start();
+	include('connexion.php');
+?>
+
 <!DOCTYPE HTML>
 
 <html>
@@ -10,6 +15,12 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body class="is-preload">
+
+		<div class="remodal" data-remodal-id="error">
+    		<button data-remodal-action="close" class="remodal-close"></button>
+    		<div class="box" id="error">
+    		</div>
+		</div>
 
 		<!-- Wrapper -->
 			<div id="wrapper" class="remodal-bg">
@@ -29,7 +40,26 @@
 											<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
 											<li><a href="#" class="icon fa-medium"><span class="label">Medium</span></a></li>
 										</ul>
-										<a href="#connect" id="connect" class="button">Connect</a>
+										<?php
+											if(!isset($_SESSION['id'])&&empty($_SESSION['id'])){
+												echo '<a href="#connect" id="connect" class="button">Connect</a>';
+											}	
+											else{
+												echo '
+													<div>
+														<h3>
+															<span class="image right"><img src="images/'.$_SESSION['avatar'].'"/></span>
+															'.$_SESSION['email'].'
+														</h3>
+														<a href="?disconnect=1" id="connect" class="button">Déconnexion</a>
+													</div>
+												';
+												if($_SESSION['admin']==1){
+													echo "<a href=\"#\">Admin</a>";
+												}
+											}
+										?>
+										
 									</div>
 								</header>
 
@@ -152,13 +182,6 @@
 					<div id="sidebar">
 						<div class="inner">
 
-							<!-- Search -->
-								<section id="search" class="alt">
-									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
-									</form>
-								</section>
-
 							<!-- Menu -->
 								<nav id="menu">
 									<header class="major">
@@ -241,10 +264,6 @@
 					</div>
 
 			</div>
-			<?php
-				include('connexion.php');
-			?>
-
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
